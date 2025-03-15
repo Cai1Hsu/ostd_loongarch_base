@@ -1,0 +1,9 @@
+{
+    "rust-analyzer.rustc.source": "discover",
+    "rust-analyzer.cargo.target": "loongarch64-unknown-none",
+    "rust-analyzer.check.allTargets": false,
+    "rust-analyzer.check.extraArgs": [
+        "--target",
+        "loongarch64-unknown-none"
+    ],
+}

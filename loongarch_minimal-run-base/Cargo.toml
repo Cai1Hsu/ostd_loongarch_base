@@ -1,0 +1,12 @@
+[workspace]
+
+[package]
+name = "loongarch_minimal-osdk-bin"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies.loongarch_minimal]
+path = "../loongarch_minimal"
+default-features = false
+
+[features]
