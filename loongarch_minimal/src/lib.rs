@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: MPL-2.0
+// A Kernel in About 100 Lines of Safe Rust for LoongArch64
+// adapted from https://asterinas.github.io/book/ostd/a-100-line-kernel.html
+
 #![no_std]
 #![deny(unsafe_code)]
 
