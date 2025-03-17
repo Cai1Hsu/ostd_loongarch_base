@@ -1,0 +1,50 @@
+name: Kernel test
+
+on:
+  push:
+    branches:
+      - "**"
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: 'always'
+  IS_CI_ENVIRONMENT: true
+
+jobs:
+  run:
+    name: Run
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        env: 
+            TOOLCHAIN_VERSION: nightly-2025-01-18
+        run: |
+          rustup toolchain install $TOOLCHAIN_VERSION --profile minimal
+          rustup default $TOOLCHAIN_VERSION
+          rustup override set $TOOLCHAIN_VERSION
+          rustup target add loongarch64-unknown-none
+          rustup component add llvm-tools
+
+      - name: Install Qemu
+        run: |
+          wget ${{ secrets.QEMU_URL }} -O qemu-prebuilt-9.2.1.tar.gz
+          mkdir qemu
+          tar -xf qemu-prebuilt-9.2.1.tar.gz -C qemu
+          echo "$PWD/qemu/bin" >> $GITHUB_PATH
+
+      - name: Verify Qemu installation
+        run: qemu-system-loongarch64 --version
+
+      - name: Build
+        run: ./build.sh
+
+      - name: Run
+        timeout-minutes: 5
+        run: qemu-system-loongarch64 \
+              -machine virt \
+              -nographic \
+              -m 1G \
+              -kernel loongarch_minimal-run-base/target/loongarch64-unknown-none/debug/loongarch_minimal-osdk-bin \
+              -no-reboot
