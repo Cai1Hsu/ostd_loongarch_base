@@ -44,9 +44,4 @@ jobs:
 
       - name: Run
         timeout-minutes: 5
-        run: qemu-system-loongarch64 \
-              -machine virt \
-              -nographic \
-              -m 1G \
-              -kernel loongarch_minimal-run-base/target/loongarch64-unknown-none/debug/loongarch_minimal-osdk-bin \
-              -no-reboot
+        run: qemu-system-loongarch64 -machine virt -nographic -no-reboot -m 1G -kernel loongarch_minimal-run-base/target/loongarch64-unknown-none/debug/loongarch_minimal-osdk-bin
